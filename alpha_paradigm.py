@@ -41,7 +41,7 @@ def clamp01(x: float) -> float:
 NOTCH_B, NOTCH_A = butter(4, np.array([55, 65]) / (256 / 2), btype="bandstop")
 
 
-def nextpow2(i: int) -> int:
+def nextposition2(i: int) -> int:
     n = 1
     while n < i:
         n *= 2
@@ -55,7 +55,7 @@ def compute_band_powers(eegdata: np.ndarray, fs: float) -> np.ndarray:
     data_win_centered = eegdata - np.mean(eegdata, axis=0)
     data_win_centered_ham = (data_win_centered.T * w).T
 
-    nfft = nextpow2(win_sample_length)
+    nfft = nextposition2(win_sample_length)
     y = np.fft.fft(data_win_centered_ham, n=nfft, axis=0) / win_sample_length
     psd = 2 * np.abs(y[0 : int(nfft / 2), :])
     f = fs / 2 * np.linspace(0, 1, int(nfft / 2))
